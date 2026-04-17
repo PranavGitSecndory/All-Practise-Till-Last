@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    .circle-yellow {
+      position: absolute;
+      top: -150px;
+      left: -124px;
+      width: 300px;
+      height: 339px;
+      background: #ffcc00;
+      border-radius: 52%;
+      z-index: 1;
+    }
+
+    .half-circle-green {
+      position: relative;
+      top: 0;
+      left: 150px;
+      width: calc(100vw - 150px);
+      height: auto;
+      background: rgba(0, 128, 0, 0.7);
+      border-top-left-radius: 150px;
+      border-bottom-left-radius: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px 40px;
+      box-sizing: border-box;
+      z-index: 2;
+      color: white;
+    }
+
+    .logo {
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      height: 112px;
+      object-fit: contain;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      gap: 43px;
+      max-width: 800px;
+      padding: 0 20px;
+      margin-bottom: 40px;
+    }
+
+    .content-text {
+      max-width: 400px;
+    }
+
+    .content-text h1 {
+      margin: 0 0 15px 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .content-text p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .thumbnail {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-footer {
+    background: rgb(0 128 93);
+	 border-top-left-radius: 150px;
+    color: white;
+    padding: 7px 28px;
+    width: 77%;
+    box-sizing: border-box;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .footer-col {
+      flex: 1 1 300px;
+      margin: 20px;
+    }
+
+    .footer-col h4 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #ffeb3b;
+    }
+
+    .footer-address {
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .footer-col a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-col a:hover {
+      color: #ffcc00;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    @media(max-width: 768px) {
+      .half-circle-green {
+        flex-direction: column;
+        border-radius: 0;
+        left: 0;
+        width: 100vw;
+      }
+
+      .content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        max-width: 100%;
+      }
+
+      .thumbnail {
+        width: 100px;
+        height: 100px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-col {
+        margin: 10px 0;
+      }
+
+      .logo img {
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative Yellow Circle -->
+  <div class="circle-yellow"></div>
+
+  <!-- Green Half-Circle Section -->
+  <div class="half-circle-green">
+    
+    <!-- Logo Section -->
+    <div class="logo">
+      <img src="https://itbusinessplus.net/template/V3/Pranav/Images/Adobe-Logo.png" alt="Company Logo" />
+    </div>
+
+    <!-- Thank You Message -->
+    <div class="content">
+      <div class="content-text">
+       <h1>Thank You!</h1>
+<p style="font-size: 1.2rem; line-height: 1.7;">
+  <strong style="font-size: 1.3rem; color: #ffffff;">Accelerate Innovation with Intelligent Infrastructure</strong><br><br>
+  Thanks for reaching out! Our team will connect with you shortly.<br>
+  In the meantime, explore how our solutions can help your business grow smarter and faster.
+</p>
+
+      </div>
+      <div class="thumbnail">
+        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=200&q=80" alt="Thank you thumbnail" />
+      </div>
+    </div>
+
+    <!-- Footer -->
+  <!-- Footer -->
+<footer class="main-footer" style="background-color: #00686c; color: white; padding: 40px 20px;">
+  <div class="footer-content" style="display: flex; flex-wrap: wrap; gap: 9px; justify-content: space-between; max-width: 1200px; margin: auto;">
+    
+    <!-- Logo Column -->
+    <div class="footer-col" style="flex: 1 1 200px;">
+      <img src="https://itbusinessplus.net/template/V3/Pranav/Images/logo1.png" alt="Company Logo" style="max-width: 160px; height: auto; margin-bottom: 15px;width: 111px;">
+      <p style="font-size: 14px; line-height: 1.6;">Empowering digital transformation through intelligent infrastructure.</p>
+    </div>
+
+    <!-- Address Column -->
+    <div class="footer-col" style="flex: 1 1 200px;">
+      <h4 style="margin-bottom: 10px;">Our Address</h4>
+      <p style="font-size: 14px; line-height: 1.6;">
+        IT Company Pvt Ltd<br />
+        123 Innovation Street,<br />
+        London, United Kingdom, W1A 1AA
+      </p>
+    </div>
+
+    <!-- Contact Column -->
+    <div class="footer-col" style="flex: 1 1 200px;">
+      <h4 style="margin-bottom: 10px;">Contact Us</h4>
+      <p style="font-size: 14px;">Email: <a href="mailto:info@itcompany.net" style="color: #ffeb3b;">info@itcompany.net</a></p>
+      <p style="font-size: 14px;">Phone: <a href="tel:+442079460123" style="color: #ffeb3b;">+44 20 7946 0123</a></p>
+    </div>
+
+    <!-- Links Column -->
+    <div class="footer-col" style="flex: 1 1 200px;">
+      <h4 style="margin-bottom: 10px;">Quick Links</h4>
+      <ul style="list-style: none; padding: 0; font-size: 14px; line-height: 1.8;">
+        <li><a href="#" style="color: #ffeb3b; text-decoration: none;">Privacy Policy</a></li>
+        <li><a href="#" style="color: #ffeb3b; text-decoration: none;">Terms of Use</a></li>
+        <li><a href="#" style="color: #ffeb3b; text-decoration: none;">Sitemap</a></li>
+        <li><a href="#" style="color: #ffeb3b; text-decoration: none;">Support</a></li>
+      </ul>
+    </div>
+
+  </div>
+</footer>
+
+  </div>
+
+</body>
+</html>

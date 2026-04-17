@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Professional Wellness Webinar</title>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery Validate CDN -->
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+<!-- AOS Animate On Scroll CSS & JS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans', sans-serif, Arial, sans-serif;
+    background-color: #e8ecee;
+    color: #333;
+    line-height: 1.5;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  /* Left & Right sections */
+  .left, .right {
+    padding: 35px 30px;
+    flex: 1 1 50%;
+    min-width: 320px;
+  }
+  .left {
+    background-color: #ffffff;
+  }
+  .right {
+    background-color: #823cad;
+    color: #fff;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Left content */
+  .left h2 {
+    color: #0073e6;
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  .left h3 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .left p {
+    font-size: 19px;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  .left ul {
+    list-style: none;
+    padding-left: 0;
+    color: #444;
+    font-size: 19px;
+    margin-top: 20px;
+  }
+  .left ul li {
+    margin-bottom: 12px;
+    padding-left: 28px;
+    position: relative;
+  }
+  .left ul li::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 18px;
+  }
+
+  /* CTA button */
+  .cta-btn {
+    background-color: #6a1b9a;
+    color: #fff;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+  }
+  .cta-btn:hover {
+    background-color: #4a116f;
+    transform: scale(1.05);
+  }
+
+  /* Left image */
+  .left-image {
+    width: 100%;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+  }
+  .left-image:hover {
+    transform: scale(1.03);
+  }
+
+  /* Calendar img */
+  .calendar-container {
+    background: #f0f0f5;
+    border-radius: 12px;
+    padding: 20px 25px;
+    max-width: 366px;
+    margin: 5px 0 auto;
+    box-shadow: 0 0 12px rgba(0,0,0,0.07);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    text-align: center;
+  }
+  .calendar-container h3 {
+    margin-bottom: 12px;
+    font-size: 26px;
+    color: #6a1b9a;
+  }
+  .calendar-details p {
+    font-size: 21px;
+    margin: 6px 0;
+  }
+  .calendar-cta {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #6a1b9a;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  .calendar-cta:hover {
+    background-color: #4a116f;
+    transform: scale(1.05);
+  }
+
+  /* Right content */
+  .right img.logo {
+    max-width: 280px;
+	margin-left: 122px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+  }
+  .right img.logo:hover {
+    transform: scale(1.05);
+  }
+  .right h1 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+  .right h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+
+  /* Speakers grid */
+  .speakers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+  }
+  .speaker-card {
+    background: #fff;
+    border-radius: 8px;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+    text-align: center;
+    overflow: hidden;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .speaker-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  }
+  .speaker-card img {
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  .speaker-card h4 {
+    margin: 12px 0 5px;
+    font-size: 17px;
+    color: #6a1b9a;
+  }
+  .speaker-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 0 10px 12px;
+  }
+
+  /* Form container */
+  .form-container {
+    background: #b0a628;
+    padding: 25px 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    margin-bottom: 40px;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: left;
+  }
+  .form-container h2.form-heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+  .form-group label {
+    display: block;
+    color: #f3eafd;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="number"],
+  .form-group input[type="tel"],
+  .form-group select {
+    width: 100%;
+    padding: 14px 12px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background: #eee;
+    color: #333;
+    transition: box-shadow 0.3s ease;
+  }
+  .form-group input[type="text"]:focus,
+  .form-group input[type="email"]:focus,
+  .form-group input[type="number"]:focus,
+  .form-group input[type="tel"]:focus,
+  .form-group select:focus {
+    box-shadow: 0 0 6px 2px #af7eff;
+    background: #fff;
+  }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 6px;
+  }
+  .radio-option {
+    display: flex;
+    align-items: center;
+    color: #f3eafd;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .radio-option input[type="radio"] {
+    margin-right: 6px;
+    accent-color: #d9a1ff;
+  }
+
+  /* Checkbox group */
+  .form-group.checkbox label {
+    color: #f3eafd;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .form-group.checkbox input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #d9a1ff;
+  }
+
+  /* Submit button */
+  button.cta {
+    width: 100%;
+    background-color: #42168f;
+    color: #f3f3f3;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 23px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  button.cta:hover {
+    background-color: #9e5dd7;
+    transform: scale(1.05);
+  }
+
+  /* Validation error messages */
+  label.error {
+    color: #ffb3b3;
+    font-size: 13px;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Footer */
+  footer {
+    background-color: #fff;
+    max-width: 1200px;
+    margin: 40px auto 20px;
+    padding: 20px 30px;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  footer .footer-left,
+  footer .footer-center,
+  footer .footer-right {
+    flex: 1 1 30%;
+    min-width: 250px;
+    margin-bottom: 10px;
+  }
+  footer img.footer-logo {
+    width: 80px;
+    margin-bottom: 10px;
+  }
+  footer a {
+    color: #333;
+    text-decoration: underline;
+    margin: 0 5px;
+    font-size: 13px;
+  }
+  footer p {
+    margin: 6px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .container {
+      flex-direction: column;
+      margin: 20px;
+    }
+    .left, .right {
+      flex: 1 1 100%;
+      padding: 25px 20px;
+    }
+    .right h1 {
+      font-size: 22px;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Left Section -->
+  <section class="left" data-aos="fade-right" data-aos-duration="1000" data-aos-once="true">
+    <img src="https://itbusinessplus.net/template/V3/Pranav/Images/thumbnail2.png" alt="Workshop" class="left-image" data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="200" />
+
+    <h2 data-aos="fade-up" data-aos-delay="400">🌟 Recharge. Refocus. Reignite.</h2>
+    <h3 data-aos="fade-up" data-aos-delay="600">Enhance Well-being, Boost Performance</h3>
+
+    <p data-aos="fade-up" data-aos-delay="800">
+      In celebration of <strong>Professional Wellness Month</strong>, join our transformative webinar that empowers your team to recharge, refocus, and reignite their passion at work.
+    </p>
+
+    <ul data-aos="fade-up" data-aos-delay="1000">
+      <li data-icon="🧘‍♀️"><strong>Master mindfulness & stress management</strong></li>
+      <li data-icon="✅"><strong>Daily productivity hacks</strong> that actually work</li>
+      <li data-icon="🔥"><strong>Identify & prevent burnout</strong> before it starts</li>
+      <li data-icon="⚖️"><strong>Balance work and life</strong> without compromise</li>
+      <li data-icon="🎙️"><strong>Insights from leading wellness experts</strong></li>
+    </ul>
+
+    <p style="margin-top: 25px; font-weight: 600;" data-aos="fade-up" data-aos-delay="1200">
+      📅 <strong>Don’t miss this opportunity</strong> to invest in your most valuable asset: <em>your people</em>.
+    </p>
+
+    <div class="calendar-container" aria-label="Webinar Schedule" data-aos="fade-up" data-aos-delay="1400" style="margin-top: 50px;">
+      <h3>📅 Webinar Schedule</h3>
+      <div class="calendar-details">
+        <p><strong>Date:</strong> July 15, 2025</p>
+        <p><strong>Time:</strong> 3:00 PM - 5:00 PM (GMT)</p>
+        <p><strong>Location:</strong> Online (Zoom)</p>
+      <!--  <button class="calendar-cta" onclick="addToCalendar()">Add to Calendar</button>-->
+      </div>
+    </div>
+
+    <img src="https://itbusinessplus.net/template/V3/Pranav/Images/webinar1.png" alt="Professional Wellness Webinar" style="margin-top: 403px; width: 348px; border-radius: 12px;"  />
+	<!--data-aos="fade-up" data-aos-delay="1600"  applu in image css webinar for animation-->
+  </section>
+
+  <!-- Right Section -->
+  <section class="right" data-aos="fade-left" data-aos-duration="1000" data-aos-once="true">
+
+    <img src="https://itbusinessplus.net/template/V3/Pranav/Images/astra-2.png" alt="Company Logo" class="logo" data-aos="zoom-in" data-aos-delay="200" />
+
+    <h1 data-aos="fade-up" data-aos-delay="400">The Vision Code: Strategies of Bold Entrepreneurs</h1>
+
+    <!-- FORM START -->
+    <div class="form-container" data-aos="fade-up" data-aos-delay="600">
+      <h2 class="form-heading">Register Now</h2>
+      <form id="signup-form" action="https://itbusinessplus.net/template/V3/Pranav/109109-Design5-Thankou4.html" method="post" autocomplete="off" novalidate>
+        <input type="hidden" name="formname" value="Wellness Webinar 2025" />
+        <input type="hidden" name="redirect" value="https://itbusinessplus.net/thank-you" />
+
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input id="name" name="name" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Mobile Number *</label>
+          <input id="phone" name="phone" type="tel" required pattern="[0-9+\- ]{7,15}" placeholder="+1234567890" />
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company *</label>
+          <input id="company" name="company" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="designation">Designation *</label>
+          <input id="designation" name="designation" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label>Are you an HR Professional? *</label>
+          <div class="radio-group" role="radiogroup" aria-labelledby="hr-question">
+            <label class="radio-option"><input type="radio" name="hr_professional" value="Yes" required /> Yes</label>
+            <label class="radio-option"><input type="radio" name="hr_professional" value="No" /> No</label>
+          </div>
+        </div>
+
+        <div class="form-group checkbox">
+          <label><input type="checkbox" name="privacy_policy" required /> I accept the <a href="https://itbusinessplus.net/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a></label>
+        </div>
+<a href="https://itbusinessplus.net/template/V3/Pranav/109109-Design5-Thankou4.html" target="_blank">
+  <button type="button" class="cta">Submit</button>
+</a>
+ 
+      </form>
+    </div>
+    <!-- FORM END -->
+
+    <h2 data-aos="fade-up" data-aos-delay="800">Meet the Speakers</h2>
+
+    <div class="speakers">
+      <div class="speaker-card" data-aos="fade-up" data-aos-delay="900" tabindex="0">
+        <img src="https://itbusinessplus.net/template/V3/Pranav/Images/land-speaker1.jpg" alt="Aman Gupta" />
+        <h4>Aman Gupta</h4>
+        <p>Investing in people, passion, progress</p>
+      </div>
+      <div class="speaker-card" data-aos="fade-up" data-aos-delay="1100" tabindex="0">
+        <img src="https://itbusinessplus.net/template/V3/Pranav/Images/land-speaker2.jpg" alt="Vineeta Singh" />
+        <h4>Vineeta Singh</h4>
+        <p>Empowering women through fearless leadership</p>
+      </div>
+      <div class="speaker-card" data-aos="fade-up" data-aos-delay="1300" tabindex="0">
+        <img src="https://itbusinessplus.net/template/V3/Pranav/Images/land-speaker3.jpg" alt="Namita Thapar" />
+        <h4>Namita Thapar</h4>
+        <p>Leading with purpose and compassion</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+  <footer>
+    <div class="footer-left">
+      <img src="https://itbusinessplus.net/template/V3/Pranav/Images/logo1.png" alt="Footer Logo" class="footer-logo" />
+      <address>
+        2112 Lost Private, Kittitas, New Jersey<br />
+        Phone: +1 (000) 123 456 789
+      </address>
+    </div>
+    <div class="footer-center">
+      <strong style="
+    FONT-SIZE: 21px;
+">We're here to support you — every step of the way</strong>
+    </div>
+<div class="footer-right" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+
+  <div class="social-icons" style="display: flex; gap: 16px;">
+    <a href="#" aria-label="Instagram">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" style="max-width: 24px; height: auto;" />
+    </a>
+    <a href="#" aria-label="Twitter">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" style="max-width: 24px; height: auto;" />
+    </a>
+    <a href="#" aria-label="Facebook">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" style="max-width: 24px; height: auto;" />
+    </a>
+  </div>
+
+  <div class="footer-links" style="font-size: 14px;">
+    <a href="#" style="color: inherit; text-decoration: none; margin-right: 8px;">Privacy Policy</a> |
+    <a href="#" style="color: inherit; text-decoration: none; margin-left: 8px;">Unsubscribe</a>
+  </div>
+
+</div>
+
+
+  </footer>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    once: true,
+    duration: 800,
+    easing: 'ease-in-out'
+  });
+
+  // Add to Calendar dummy function
+  function addToCalendar() {
+    alert("Feature coming soon! Meanwhile, please add July 15, 2025, 3:00 PM - 5:00 PM (GMT) to your calendar.");
+  }
+
+  // Form validation with jQuery Validate
+  $(function () {
+    $("#signup-form").validate({
+      rules: {
+        name: "required",
+        email: {
+          required: true,
+          email: true
+        },
+        phone: {
+          required: true,
+          pattern: /^[0-9+\- ]{7,15}$/
+        },
+        company: "required",
+        designation: "required",
+        hr_professional: "required",
+        privacy_policy: "required"
+      },
+      messages: {
+        name: "Please enter your full name",
+        email: {
+          required: "Please enter your email address",
+          email: "Please enter a valid email address"
+        },
+        phone: {
+          required: "Please enter your mobile number",
+          pattern: "Please enter a valid phone number"
+        },
+        company: "Please enter your company name",
+        designation: "Please enter your designation",
+        hr_professional: "Please select yes or no",
+        privacy_policy: "You must accept the privacy policy"
+      },
+      errorPlacement: function (error, element) {
+        if (element.attr("name") === "privacy_policy") {
+          error.insertAfter(element.parent());
+        } else {
+          error.insertAfter(element);
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+
+
+

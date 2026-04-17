@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Company • Download the Wellness Playbook</title>
+
+  <style>
+    /* Reset + Base */
+    *, *::before, *::after { box-sizing: border-box; }
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #e8ecee;
+    }
+
+    /* Particle Background */
+    #particles-js {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    /* Main container */
+    .landing-container {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 20px; height: 100%;
+    }
+
+    /* Card / form panel */
+    .landing-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      width: 100%; max-width: 720px;
+      display: flex; flex-wrap: wrap;
+      animation: fadeInUp 1s ease-out forwards;
+      opacity: 0; transform: translateY(40px);
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Left section: content */
+    .left-panel {
+      flex: 1; min-width: 300px;
+      background: #de5538; color: #fff;
+      padding: 40px 30px;
+      border-radius: 12px 0 0 12px;
+    }
+    .left-panel img.logo {
+      max-width: 180px; margin-bottom: 24px;
+    }
+    .left-panel h2 {
+      margin-top: 0; font-size: 24px;
+    }
+    .left-panel h3 {
+      font-weight: 400; margin: 16px 0;
+    }
+    .left-panel p {
+      font-size: 15px; line-height: 1.6;
+    }
+    .left-panel img.ebook {
+      width: 100%; max-width: 320px;
+      margin: 24px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border-radius: 6px;
+    }
+
+    /* Right section: form */
+    .right-panel {
+      flex: 1; min-width: 300px;
+      padding: 40px 30px;
+    }
+    .right-panel h4 {
+      font-size: 18px; color: #4B2E2E;
+      margin-top: 0; margin-bottom: 16px;
+    }
+    .form-field {
+      margin-bottom: 20px;
+      display: flex; flex-direction: column;
+    }
+    .form-field label {
+      margin-bottom: 6px; font-weight: 600; font-size: 14px;
+    }
+    .form-field input {
+      padding: 12px 16px; font-size: 16px;
+      border: 1px solid #ccc; border-radius: 6px;
+      width: 100%;
+      transition: border-color 0.3s ease;
+    }
+    .form-field input:focus {
+      border-color: #de5538; outline: none;
+    }
+    .cta {
+      margin-top: 10px;
+    }
+    .cta a {
+      display: inline-block;
+      padding: 14px 28px;
+      font-size: 16px; font-weight: 600;
+      background: #FFD700; color: #4B2E2E;
+      text-decoration: none; border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    .cta a:hover {
+      background: #e6c200;
+    }
+
+    /* Footer */
+    .landing-footer {
+      text-align: center; padding: 24px;
+      font-size: 13px; color: #777;
+    }
+    .landing-footer img {
+      max-width: 100px; margin-bottom: 8px;
+    }
+    .landing-footer a {
+      color: #777; text-decoration: none; margin: 0 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 760px) {
+      .landing-card {
+        flex-direction: column;
+        border-radius: 12px;
+      }
+      .left-panel, .right-panel {
+        border-radius: 12px;
+        padding: 30px 20px;
+      }
+      .left-panel {
+        border-radius: 12px 12px 0 0;
+      }
+      .right-panel {
+        border-radius: 0 0 12px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+
+  <div class="landing-container">
+    <div class="landing-card">
+
+      <!-- Left panel with content -->
+      <div class="left-panel">
+        <img class="logo" src="https://itbusinessplus.net/template/V3/Pranav/Images/astra-2.png" alt="Company Logo" />
+        <h2>📘 Unlock Focus. Fuel Performance. Flourish at Work.</h2>
+        <h3>Download Your Free Wellness Productivity Playbook</h3>
+        <p>
+          In recognition of <strong>Professional Wellness Month</strong>, we're excited to offer a comprehensive <strong>free eBook</strong> that dives into the core of employee well‑being and performance.
+        </p>
+        <p>
+          Discover proven strategies in <strong>mindfulness</strong>, <strong>resilience</strong>, and <strong>focus management</strong>—designed to help professionals thrive without burnout.
+        </p>
+        <img class="ebook" src="https://itbusinessplus.net/template/V3/Pranav/Images/Report2.png" alt="Wellness Guide" />
+      </div>
+
+      <!-- Right panel with form -->
+      <div class="right-panel">
+        <img src="https://itbusinessplus.net/template/V3/Pranav/Images/thumbnail4.png" alt="Workshop Thumbnail" style="width:100%;border-radius:8px;margin-bottom:20px;">
+        <h4>What You’ll Learn Inside This Free Guide:</h4>
+        <ul style="padding-left:20px; font-size:14px; margin-bottom:20px; line-height:1.6;">
+          <li>📘 Actionable mindfulness frameworks to improve clarity</li>
+          <li>🧠 Science‑backed routines for sustained focus</li>
+          <li>🚨 Early strategies to manage burnout</li>
+          <li>⚖️ Proven tips for work‑life balance</li>
+          <li>💡 Expert‑curated wellness insights</li>
+        </ul>
+
+        <form>
+          <div class="form-field">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" placeholder="John Doe" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" placeholder="you@company.com" required />
+          </div>
+          <div class="form-field">
+            <label for="company">Company</label>
+            <input id="company" type="text" placeholder="Your Organization" />
+          </div>
+          <div class="cta">
+            <a href="https://itbusinessplus.net/template/V3/Pranav/109109-Design5-Thankyou5.html" target="_blank">Download Now →</a>
+          </div>
+        </form>
+        <p style="margin-top: 20px; font-size:12px; color:#555; font-style:italic;">
+          By clicking “Download Now”, you agree to receive the guide and related wellness resources.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="landing-footer">
+    <img src="https://itbusinessplus.net/template/V3/Pranav/Images/logo1.png" alt="Footer Logo" />
+    <p>© 2025 Your Company Name · 123 Wellness Ave, Suite 100</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Unsubscribe</a></p>
+  </div>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 60, "density": { "enable": true, "value_area": 800 }},
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+        "move": { "enable": true, "speed": 3, "out_mode": "out" }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": false }
+        },
+        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 }} }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+</html>

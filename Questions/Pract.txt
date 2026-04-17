@@ -1,0 +1,312 @@
+-------------------------------------------------------------------------------------------------------------Prompt---------------------------------------------------------------------------------------------------
+
+
+
+I want to practice working on a real-time CRUD scenario project using Spring Boot, with MySQL as the database. I plan to use Postman and Thunderbird for testing.
+
+***************************************************************************First Scenario (Beginner Level):***************************************************************************
+   * The project should involve collections, JSON data, and sorting techniques.
+Second Scenario (Mediator Level):
+   * This scenario should involve collections, mapped data, sorting techniques, JSON data, and nested array objects. Additionally, exception handling should be incorporated.
+***************************************************************************Third Scenario (Advanced Level):***************************************************************************
+   * This scenario should include collections, mapped data, sorting techniques, JSON data, nested array objects, exception handling, multithreading, and Stream API usage.
+give the qn for it
+
+**Here are the complete, ready-to-use Project Questions (Assignments) for your 3-level real-time CRUD practice using Spring Boot + MySQL.**
+
+You will build **one single project** called **“E-Commerce Order Management System”** and progressively enhance it across the three scenarios. This way you get a real-world feel and can show incremental improvement in your resume/portfolio.
+
+mvn spring-boot:run
+D:\demo\Pract\Java Pract\Source code\First_Scenario\Frnt end>http-server
+GETAll
+http://localhost:8080/products   
+POST
+http://localhost:8080/AddData
+  {
+    "category": "Clothing",
+  "name": "T-shirt",
+  "price": 1599.99,
+  "stock_quantity": 40
+  }
+Delete
+http://localhost:8080/deleteProduct/2
+Update
+http://localhost:8080/updatePrdct/2
+ ***************************************************************************### **1. First Scenario (BeginnerLevel)************************************************
+
+**Project Question:**
+
+Develop a Spring Boot RESTful CRUD application for **Product Management** with the following requirements:
+
+**Entity:**
+- `Product` (Long id, String name, double price, int stockQuantity, String category)
+
+**Requirements:**
+- Full CRUD operations (Create, Read, Update, Delete) using REST APIs.
+- Use MySQL database with JPA/Hibernate and Spring Data JPA.
+- All request/response bodies must be in **JSON** format.
+- Implement **sorting techniques** in the service layer using **Java Collections** (`Collections.sort()` or `Comparator`) – **do not use** Spring Data JPA `Sort` or `Pageable` yet.
+- GET `/products` should accept an optional query parameter `sortBy=price` or `sortBy=name` (default = name) and return sorted list using pure Collections/Comparator logic.
+- Proper validation using `@Valid` and `BindingResult` for price > 0 and stockQuantity ≥ 0.
+- Use Postman to test all endpoints (provide Postman collection screenshots in your report).
+
+**Tech constraints:** No Stream API, no custom exceptions, no mappings/relationships, no multithreading.
+
+**Deliverables:** Complete working project with README explaining how you implemented sorting using Collections.
+
+
+*************************************************### **2. Second Scenario (Intermediate / Mediator Level)*********************************************************************
+
+**Project Question (Build on top of Scenario 1):**
+
+Extend the above application by adding **Order Management** with **mapped entities**, **nested array objects**, and **exception handling**.
+
+**New Entities:**
+- `Order` (Long id, String customerName, LocalDateTime orderDate, String status, List<OrderItem> orderItems)
+- `OrderItem` (Long id, Product product, int quantity, double priceAtOrderTime) → **@ManyToOne** with Product
+
+**Requirements:**
+- Full CRUD for Orders.
+- **POST /orders** must accept a **nested JSON array** of items like:
+  ```json
+  {
+    "customerName": "John Doe",
+    "items": [
+      {"productId": 1, "quantity": 2},
+      {"productId": 3, "quantity": 1}
+    ]
+  }
+  ```
+- In service layer:
+  - Map the nested JSON array to `OrderItem` entities.
+  - Reduce stock in Product (use `@Transactional`).
+  - Use **@OneToMany** and **@ManyToOne** mappings with proper `CascadeType` and `FetchType`.
+- Implement **custom exception handling**:
+  - `ProductNotFoundException`
+  - `InsufficientStockException`
+  - `InvalidOrderException`
+  - Global `@ControllerAdvice` with `@ExceptionHandler`.
+- In GET `/orders`, support sorting by `orderDate` or `totalAmount` using **Collections.sort()** + Comparator (or List.sort()).
+- Use **mapped data** (DTO ↔ Entity conversion using ModelMapper or manual mapping).
+
+**Tech constraints:** Still no Stream API and no multithreading.
+
+**Deliverables:** Updated Postman collection + exception handling screenshots + ER diagram showing the relationship.
+
+---
+
+***************************************************************************# **3. Third Scenario (AdvancedLevel)******************************************************
+
+**Project Question (Final Enhancement of the same project):**
+
+Transform the application into a production-ready system by adding **Stream API**, **Multithreading**, and advanced features.
+
+**Additional Requirements (on top of Scenario 2):**
+
+1. **Stream API Usage (mandatory in at least 4 places):**
+   - Calculate total revenue of all orders using Stream.
+   - Find top 5 best-selling products (group by product + sum quantity).
+   - Filter active orders (status = "CONFIRMED") and map to response DTO.
+   - Generate monthly sales report using `groupingBy` + `summingDouble`.
+
+2. **Multithreading:**
+   - Make stock reduction and order confirmation **asynchronous** using `@Async` + `ExecutorService` (configure `ThreadPoolTaskExecutor`).
+   - When an order is placed, send order confirmation email in a separate thread (use JavaMailSender – you can use fake SMTP or Gmail for testing with Thunderbird).
+   - Implement parallel processing for bulk order status update (e.g., `/orders/bulk-update` accepts list of order IDs and updates them in parallel using `CompletableFuture` or parallel stream).
+
+3. **Advanced Exception Handling:**
+   - Use `@ControllerAdvice` with `ResponseEntityExceptionHandler`.
+   - Custom error response JSON with timestamp, error code, message.
+
+4. **Extra Features (must implement):**
+   - Product now has `List<String> tags` (@ElementCollection) → nested array in JSON.
+   - GET `/reports/sales` returns JSON with Stream-generated data.
+   - Proper pagination + sorting using **Stream** + **Collections** combination where required.
+
+**Tech constraints:** You **must** demonstrate all the mentioned concepts (collections, mapped data, sorting, JSON, nested arrays, exception handling, multithreading, Stream API).
+
+**Deliverables:**
+- Complete GitHub repo with 3 branches: `beginner`, `intermediate`, `advanced`.
+- README with architecture diagram, thread pool config, Stream API usage examples.
+- Postman collection + Thunder Client (VS Code) screenshots.
+- Video/demo showing parallel order processing and email received in Thunderbird.
+
+---
+
+**Bonus (for all levels):**
+- Use Lombok, Spring Boot 3.x, Java 17/21.
+- Proper package structure (controller, service, repository, dto, exception, config).
+- Swagger/OpenAPI documentation (`springdoc-openapi`).
+- Logging with SLF4J.
+
+Would you like me to also provide:
+- The exact Entity classes with annotations?
+- Service layer method signatures?
+- Sample Postman JSON payloads for each level?
+- Git branch strategy?
+
+
+Sure! Let me give you concrete examples using the **product management system** you're working on, so you can see when you might use each of these collections (`Set`, `Map`, `Queue`) and why **`List`** is the most suitable choice for handling products in most scenarios.
+
+### 1. **Using a `Set<Product>` in Your Project**
+
+A **`Set`** ensures that there are **no duplicates** in the collection. You might use a `Set` when you want to make sure that the same product (identified by a unique property, like category or product name) does not appear more than once in a collection.
+
+#### **Example Use Case: Storing Unique Product Categories**
+
+Imagine that you want to create a feature in your product management system where you want to list all unique product categories without duplicates.
+
+* You **don’t care about the order** of the categories.
+* You just want a **distinct list of categories**.
+
+You can use a `Set` to ensure there are no duplicate categories:
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class ProductService {
+
+    public Set<String> getUniqueCategories(List<Product> products) {
+        Set<String> uniqueCategories = new HashSet<>();
+        
+        // Loop through all products and add their categories to the Set
+        for (Product product : products) {
+            uniqueCategories.add(product.getCategory());
+        }
+        
+        return uniqueCategories;  // No duplicates allowed
+    }
+}
+```
+
+* **Why `Set`?** Because the product categories may repeat (e.g., multiple products might be in the "Clothing" category), but you want to ensure that only **distinct categories** are returned.
+* **Why not `List`?** A `List` would allow duplicates, and you’re only interested in **unique categories**.
+
+#### **Output Example:**
+
+* If you had products like:
+
+  * "T-shirt" (category: Clothing)
+  * "Jeans" (category: Clothing)
+  * "Laptop" (category: Electronics)
+  * "Phone" (category: Electronics)
+
+* The `Set<String>` would give you: `["Clothing", "Electronics"]`.
+
+---
+
+### 2. **Using a `Map<String, Product>` in Your Project**
+
+A **`Map`** is ideal when you need to associate a **key-value pair**. In your case, you can use a `Map` to map **product IDs** (which are unique) to their respective `Product` objects. This would be useful when you want to look up a product quickly by its ID.
+
+#### **Example Use Case: Fetching Product by ID**
+
+If your product management system needs to provide details of a product based on its **unique product ID**, a `Map` would be a great choice.
+
+Here’s how you can implement it:
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class ProductService {
+
+    private Map<Long, Product> productMap = new HashMap<>();
+    
+    public void addProduct(Product product) {
+        productMap.put(product.getId(), product);  // Add product with its unique ID
+    }
+
+    public Product getProductById(Long productId) {
+        return productMap.get(productId);  // Lookup product by ID
+    }
+}
+```
+
+* **Why `Map`?** A `Map` is useful when you need to perform **fast lookups by key**. In this case, the `productId` is the **key** and the `Product` is the **value**.
+* **Why not `List`?** With a `List`, if you want to search for a product by ID, you would have to **iterate** through the entire list, which is inefficient. A `Map` provides **constant time lookup** by product ID.
+
+#### **Usage Example:**
+
+* You could add products like this:
+
+  ```java
+  Product p1 = new Product(1L, "T-shirt", "Clothing", 1599.99, 40);
+  productService.addProduct(p1);
+
+  Product p2 = new Product(2L, "Laptop", "Electronics", 49999.99, 10);
+  productService.addProduct(p2);
+  ```
+
+* And then fetch a product by its ID like this:
+
+  ```java
+  Product product = productService.getProductById(1L);  // Fetches "T-shirt"
+  ```
+
+---
+
+### 3. **Using a `Queue<Product>` in Your Project**
+
+A **`Queue`** is useful when you need to **process items in a specific order**, such as in **FIFO (First In, First Out)** order. While this is not typically used for product management (because products aren't usually processed in a specific sequence like tasks), there are some situations where you might use a queue.
+
+#### **Example Use Case: Order Fulfillment Queue**
+
+Imagine that your system needs to **process orders** for products. When a user places an order, the order will be added to a queue for **fulfillment**. The first order that comes in will be the first one processed (FIFO). Here’s an example of how you could use a `Queue` to manage this:
+
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class OrderService {
+
+    private Queue<Order> orderQueue = new LinkedList<>();
+    
+    public void addOrder(Order order) {
+        orderQueue.offer(order);  // Add order to the queue
+    }
+
+    public Order processNextOrder() {
+        return orderQueue.poll();  // Process the first order in the queue
+    }
+}
+```
+
+* **Why `Queue`?** The queue is used because the **first order placed** should be **processed first**. This is a classic example of a **FIFO** (First In, First Out) structure.
+* **Why not `List` or `Set`?** A `List` does not guarantee order processing, and a `Set` does not allow duplicates, which would be inappropriate for processing orders.
+
+#### **Usage Example:**
+
+* Add orders to the queue:
+
+  ```java
+  Order order1 = new Order(101L, "T-shirt", 2);
+  orderService.addOrder(order1);
+
+  Order order2 = new Order(102L, "Laptop", 1);
+  orderService.addOrder(order2);
+  ```
+
+* Process orders in FIFO order:
+
+  ```java
+  Order processedOrder1 = orderService.processNextOrder();  // Processes order1 (T-shirt)
+  Order processedOrder2 = orderService.processNextOrder();  // Processes order2 (Laptop)
+
+
+### **Summary:**
+
+1. **Use `Set<Product>`** if you want to handle **unique product categories** or **ensure no duplicates** in a collection.
+
+   * **Example**: List of unique product categories like "Clothing", "Electronics", etc.
+2. **Use `Map<Long, Product>`** if you want to associate each product with a **unique product ID** for **fast lookups**.
+
+   * **Example**: Fetching a product by its `ID` to display or update its details.
+3. **Use `Queue<Product>`** if you need to **process products in a specific order** (like processing orders in FIFO fashion).
+
+   * **Example**: Managing a queue of orders for fulfillment where the first order placed is the first one to be processed.
+
+In your **Product Management System**, **`List<Product>`** will most likely be the default choice when managing products, but **`Set`**, **`Map`**, and **`Queue`** are useful for specific scenarios like handling unique categories, fast lookups by ID, or processing orders.
+
+Let me know if you need more clarification!

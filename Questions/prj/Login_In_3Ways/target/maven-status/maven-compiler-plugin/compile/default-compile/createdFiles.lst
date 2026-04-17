@@ -1,0 +1,6 @@
+com\Login_In_3Ways\LoginIn3WaysApplication.class
+com\Login_In_3Ways\repository\UserRepository.class
+com\Login_In_3Ways\controller\AuthController.class
+com\Login_In_3Ways\controller\UserController.class
+com\Login_In_3Ways\model\User.class
+com\Login_In_3Ways\service\UserService.class

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.9</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.Login_In_3Ways</groupId>
+	<artifactId>Login_In_3Ways</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Login_In_3Ways</name>
+	<description>This Spring Boot project implements a multi-method authentication module for user login, supporting three distinct login approaches:  Login through Email and Username with JWT Token Creation Users can log in by providing their email and username along with a password. Upon successful verification, a JWT (JSON Web Token) is generated, which is then used to access protected APIs. This method ensures secure access with token-based authentication.  Login through Email ID and OTP (One-Time Password) Sharing Users can opt to log in using their email ID, where an OTP is sent to their registered email. The user enters the OTP received, and if it matches, they are authenticated and logged in. This provides a secure way to authenticate users without requiring a password.  Login through Mobile Number OTP Verification Users can log in using their mobile number. An OTP is sent to the user’s mobile number via SMS (using an external service, e.g., Twilio). The user enters the OTP, and if correct, they are authenticated and logged in. This method provides another layer of security, especially for mobile-first users.</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Jakarta Persistence Dependency (if not included by default) -->
+<dependency>
+    <groupId>jakarta.persistence</groupId>
+    <artifactId>jakarta.persistence-api</artifactId>
+    <version>3.1.0</version> <!-- Or a compatible version with Spring Boot 3 -->
+</dependency>
+
+<!-- Jakarta Bean Validation (for @NotNull) -->
+<dependency>
+    <groupId>jakarta.validation</groupId>
+    <artifactId>jakarta.validation-api</artifactId>
+    <version>3.0.0</version> <!-- Make sure this is compatible with Spring Boot 3 -->
+</dependency>
+
+<!-- Hibernate Validator (implementation of Bean Validation) -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.2.0.Final</version> <!-- Latest version for Spring Boot 3.x -->
+</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

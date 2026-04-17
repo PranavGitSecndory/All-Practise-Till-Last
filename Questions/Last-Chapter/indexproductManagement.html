@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Manager</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Heroicons (inline SVGs used) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .tail-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        .modal {
+            animation: modalPop 0.3s ease-out forwards;
+        }
+        
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .toast {
+            animation: toastIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes toastIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+        
+        .delete-btn {
+            transition: all 0.2s;
+        }
+        
+        .delete-btn:hover {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <div class="tail-container min-h-screen py-8 px-6">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-white">Product Manager</h1>
+                <p class="text-zinc-400 mt-1">Manage your products with ease</p>
+            </div>
+            
+            <div class="flex gap-3">
+                <!-- View Toggle -->
+                <div class="flex bg-zinc-900 rounded-2xl p-1 shadow-inner">
+                    <button onclick="switchView('table')" id="btn-table"
+                            class="view-btn active px-6 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2v-2H3v2zm0 7h2v-2H3v2zm0-14h2v-2H3v2zm10 0h2v-2h-2v2zm0 7h2v-2h-2v2zm0 7h2v-2h-2v2z" />
+                        </svg>
+                        Table
+                    </button>
+                    <button onclick="switchView('grid')" id="btn-grid"
+                            class="view-btn px-6 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2 2 2 0 01-2-2 2 2 0 01-2-2 2 2 0 012-2zM2 12a2 2 0 012-2 2 2 0 01-2-2 2 2 0 01-2-2 2 2 0 012-2zM2 18a2 2 0 012-2 2 2 0 01-2-2 2 2 0 01-2-2 2 2 0 012-2z" />
+                        </svg>
+                        Grid
+                    </button>
+                </div>
+                
+                <button onclick="showAddModal()"
+                        class="bg-emerald-600 hover:bg-emerald-500 transition-colors px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 shadow-lg shadow-emerald-950">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add Product
+                </button>
+                
+                <button onclick="showBulkModal()"
+                        class="bg-zinc-800 hover:bg-zinc-700 transition-colors px-6 py-3 rounded-2xl font-medium flex items-center gap-2 border border-zinc-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2" />
+                    </svg>
+                    Bulk Add
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-zinc-900 rounded-3xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center">
+                    <span class="text-3xl">📦</span>
+                </div>
+                <div>
+                    <p class="text-zinc-400 text-sm">Total Products</p>
+                    <p id="stat-total" class="text-4xl font-semibold text-white">0</p>
+                </div>
+            </div>
+            <div class="bg-zinc-900 rounded-3xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
+                    <span class="text-3xl">📈</span>
+                </div>
+                <div>
+                    <p class="text-zinc-400 text-sm">In Stock</p>
+                    <p id="stat-stock" class="text-4xl font-semibold text-emerald-400">0</p>
+                </div>
+            </div>
+            <div class="bg-zinc-900 rounded-3xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center">
+                    <span class="text-3xl">₹</span>
+                </div>
+                <div>
+                    <p class="text-zinc-400 text-sm">Total Value</p>
+                    <p id="stat-value" class="text-4xl font-semibold text-white">₹0</p>
+                </div>
+            </div>
+            <div class="bg-zinc-900 rounded-3xl p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center">
+                    <span class="text-3xl">🔄</span>
+                </div>
+                <div>
+                    <p class="text-zinc-400 text-sm">Low Stock</p>
+                    <p id="stat-low" class="text-4xl font-semibold text-amber-400">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <div class="flex-1 relative">
+                <input id="search-input" 
+                       onkeyup="filterProducts()"
+                       type="text" 
+                       placeholder="Search products by name or category..." 
+                       class="w-full bg-zinc-900 border border-zinc-700 focus:border-emerald-500 focus:ring-0 rounded-3xl py-4 px-6 text-lg placeholder-zinc-500">
+            </div>
+            <button onclick="refreshProducts()" 
+                    class="px-8 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-3xl flex items-center gap-3 font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.058 11H1M12 3v2m0 16v2m9-9H15M10 11l-2 2 2 2" />
+                </svg>
+                Refresh
+            </button>
+        </div>
+
+        <!-- TABLE VIEW -->
+        <div id="table-view" class="block">
+            <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl border border-zinc-800">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-zinc-800">
+                            <th class="px-8 py-5 text-left text-xs font-medium text-zinc-400 uppercase tracking-widest">ID</th>
+                            <th class="px-8 py-5 text-left text-xs font-medium text-zinc-400 uppercase tracking-widest">Category</th>
+                            <th class="px-8 py-5 text-left text-xs font-medium text-zinc-400 uppercase tracking-widest">Name</th>
+                            <th class="px-8 py-5 text-right text-xs font-medium text-zinc-400 uppercase tracking-widest">Price</th>
+                            <th class="px-8 py-5 text-center text-xs font-medium text-zinc-400 uppercase tracking-widest">Stock</th>
+                            <th class="px-8 py-5 text-center text-xs font-medium text-zinc-400 uppercase tracking-widest">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-zinc-800 text-sm">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- GRID VIEW -->
+        <div id="grid-view" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Add/Edit Modal -->
+        <div id="product-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+            <div class="modal bg-zinc-900 w-full max-w-lg mx-4 rounded-3xl shadow-2xl">
+                <div class="px-8 pt-8 pb-6 border-b border-zinc-700 flex items-center justify-between">
+                    <h2 id="modal-title" class="text-2xl font-semibold">Add New Product</h2>
+                    <button onclick="closeModal()" 
+                            class="text-zinc-400 hover:text-white transition-colors">
+                        ✕
+                    </button>
+                </div>
+                
+                <div class="p-8 space-y-6">
+                    <input type="hidden" id="edit-id">
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-2">CATEGORY</label>
+                        <input id="modal-category" 
+                               type="text" 
+                               class="w-full bg-zinc-800 border border-zinc-700 focus:border-emerald-500 rounded-2xl px-6 py-4 text-lg">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-2">PRODUCT NAME</label>
+                        <input id="modal-name" 
+                               type="text" 
+                               class="w-full bg-zinc-800 border border-zinc-700 focus:border-emerald-500 rounded-2xl px-6 py-4 text-lg">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-medium text-zinc-400 mb-2">PRICE (₹)</label>
+                            <input id="modal-price" 
+                                   type="number" step="0.01"
+                                   class="w-full bg-zinc-800 border border-zinc-700 focus:border-emerald-500 rounded-2xl px-6 py-4 text-lg">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-zinc-400 mb-2">STOCK QUANTITY</label>
+                            <input id="modal-stock" 
+                                   type="number"
+                                   class="w-full bg-zinc-800 border border-zinc-700 focus:border-emerald-500 rounded-2xl px-6 py-4 text-lg">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="px-8 py-6 border-t border-zinc-700 flex gap-4">
+                    <button onclick="closeModal()" 
+                            class="flex-1 py-4 text-zinc-400 hover:bg-zinc-800 rounded-2xl font-medium transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="saveProduct()" 
+                            id="modal-save-btn"
+                            class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-semibold transition-colors">
+                        Save Product
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Add Modal -->
+        <div id="bulk-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+            <div class="modal bg-zinc-900 w-full max-w-2xl mx-4 rounded-3xl shadow-2xl">
+                <div class="px-8 pt-8 pb-6 border-b border-zinc-700 flex items-center justify-between">
+                    <h2 class="text-2xl font-semibold">Bulk Add Products (JSON)</h2>
+                    <button onclick="closeBulkModal()" class="text-zinc-400 hover:text-white">✕</button>
+                </div>
+                
+                <div class="p-8">
+                    <textarea id="bulk-json" rows="10"
+                              class="w-full font-mono text-sm bg-zinc-950 border border-zinc-700 focus:border-emerald-500 rounded-3xl p-6 text-emerald-300 resize-none"
+                              placeholder='[
+  {
+    "category": "Electronics",
+    "name": "Wireless Headphones",
+    "price": 2499.99,
+    "stock_quantity": 50
+  }
+]'></textarea>
+                    <p class="text-xs text-zinc-500 mt-3">Paste an array of product objects. Matches your backend /products/bulk endpoint.</p>
+                </div>
+                
+                <div class="px-8 py-6 border-t border-zinc-700 flex gap-4">
+                    <button onclick="closeBulkModal()" 
+                            class="flex-1 py-4 text-zinc-400 hover:bg-zinc-800 rounded-2xl font-medium">
+                        Cancel
+                    </button>
+                    <button onclick="submitBulk()" 
+                            class="flex-1 py-4 bg-violet-600 hover:bg-violet-500 rounded-2xl font-semibold">
+                        Upload Bulk
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="hidden fixed bottom-6 right-6 bg-zinc-900 border border-emerald-500 text-emerald-400 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 toast">
+            <span id="toast-text" class="font-medium"></span>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://192.168.18.216:8080/products";
+        let currentProducts = [];
+        let currentView = 'table';
+        
+        function tailwindScript() {
+            // Tailwind already loaded via CDN
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const text = document.getElementById('toast-text');
+            text.textContent = message;
+            toast.classList.remove('hidden', 'bg-red-900', 'border-red-500', 'text-red-400');
+            if (type === 'error') {
+                toast.classList.add('bg-red-900', 'border-red-500', 'text-red-400');
+            }
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                    toast.style.opacity = '1';
+                }, 300);
+            }, 3000);
+        }
+        
+        async function fetchProducts() {
+            try {
+                const res = await fetch(API_BASE);
+                if (!res.ok) throw new Error('Failed to fetch');
+                const data = await res.json();
+                currentProducts = data;
+                renderAll();
+                updateStats();
+            } catch (err) {
+                showToast('Failed to load products from server', 'error');
+                console.error(err);
+            }
+        }
+        
+        function updateStats() {
+            const total = currentProducts.length;
+            const inStock = currentProducts.filter(p => p.stock_quantity > 0).length;
+            const totalValue = currentProducts.reduce((sum, p) => sum + (p.price * p.stock_quantity), 0);
+            const lowStock = currentProducts.filter(p => p.stock_quantity < 10).length;
+            
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-stock').textContent = inStock;
+            document.getElementById('stat-value').textContent = '₹' + Math.round(totalValue).toLocaleString('en-IN');
+            document.getElementById('stat-low').textContent = lowStock;
+        }
+        
+        function renderTable(products) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            products.forEach(product => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-zinc-800 transition-colors group';
+                tr.innerHTML = `
+                    <td class="px-8 py-5 font-mono text-zinc-400">${product.id}</td>
+                    <td class="px-8 py-5">
+                        <span class="inline-flex items-center px-4 py-1 bg-zinc-800 text-xs font-medium rounded-3xl">${product.category}</span>
+                    </td>
+                    <td class="px-8 py-5 font-medium">${product.name}</td>
+                    <td class="px-8 py-5 text-right font-semibold text-emerald-400">₹${parseFloat(product.price).toLocaleString('en-IN')}</td>
+                    <td class="px-8 py-5 text-center">
+                        ${product.stock_quantity > 0 ? 
+                            `<span class="px-5 py-1 bg-emerald-900 text-emerald-300 text-xs font-medium rounded-3xl">${product.stock_quantity}</span>` : 
+                            `<span class="px-5 py-1 bg-red-900 text-red-300 text-xs font-medium rounded-3xl">Out of stock</span>`
+                        }
+                    </td>
+                    <td class="px-8 py-5">
+                        <div class="flex items-center justify-center gap-4 opacity-40 group-hover:opacity-100 transition-all">
+                            <button onclick="editProduct(${product.id}); event.stopImmediatePropagation()" 
+                                    class="text-blue-400 hover:text-blue-300 flex items-center gap-1 text-sm">
+                                ✏️ Edit
+                            </button>
+                            <button onclick="deleteProduct(${product.id}); event.stopImmediatePropagation()" 
+                                    class="delete-btn text-red-400 hover:text-red-300 flex items-center gap-1 text-sm">
+                                🗑 Delete
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-8 py-16 text-center text-zinc-500">No products found</td></tr>`;
+            }
+        }
+        
+        function renderGrid(products) {
+            const container = document.getElementById('grid-view');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden';
+                card.innerHTML = `
+                    <div class="h-2 bg-gradient-to-r from-emerald-400 to-violet-500"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-4 py-1 text-xs font-medium bg-zinc-800 rounded-3xl">${product.category}</span>
+                            <span class="text-xs font-mono text-zinc-500">ID: ${product.id}</span>
+                        </div>
+                        
+                        <h3 class="font-semibold text-lg leading-tight mb-2">${product.name}</h3>
+                        
+                        <div class="flex items-baseline gap-2 mt-6">
+                            <span class="text-4xl font-bold text-emerald-400">₹${parseFloat(product.price).toLocaleString('en-IN')}</span>
+                        </div>
+                        
+                        <div class="mt-8 flex justify-between items-end">
+                            <div>
+                                <div class="text-xs text-zinc-400">STOCK</div>
+                                <div class="text-3xl font-semibold ${product.stock_quantity < 10 ? 'text-amber-400' : 'text-white'}">${product.stock_quantity}</div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button onclick="editProduct(${product.id}); event.stopImmediatePropagation()" 
+                                        class="w-10 h-10 bg-zinc-800 hover:bg-blue-900 rounded-2xl flex items-center justify-center text-blue-400">
+                                    ✏️
+                                </button>
+                                <button onclick="deleteProduct(${product.id}); event.stopImmediatePropagation()" 
+                                        class="w-10 h-10 bg-zinc-800 hover:bg-red-900 rounded-2xl flex items-center justify-center text-red-400 delete-btn">
+                                    🗑
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            if (products.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-zinc-500">No products found</div>`;
+            }
+        }
+        
+        function renderAll(filtered = null) {
+            const toRender = filtered || currentProducts;
+            renderTable(toRender);
+            renderGrid(toRender);
+        }
+        
+        function filterProducts() {
+            const term = document.getElementById('search-input').value.toLowerCase().trim();
+            if (!term) {
+                renderAll();
+                return;
+            }
+            const filtered = currentProducts.filter(p => 
+                p.name.toLowerCase().includes(term) || 
+                p.category.toLowerCase().includes(term)
+            );
+            renderAll(filtered);
+        }
+        
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('table-view').classList.toggle('block', view === 'table');
+            document.getElementById('table-view').classList.toggle('hidden', view !== 'table');
+            document.getElementById('grid-view').classList.toggle('hidden', view === 'table');
+            document.getElementById('grid-view').classList.toggle('grid', view === 'grid');
+            
+            // Active button style
+            document.getElementById('btn-table').classList.toggle('active', view === 'table');
+            document.getElementById('btn-grid').classList.toggle('active', view === 'grid');
+        }
+        
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product permanently?')) return;
+            
+            try {
+                const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Delete failed');
+                showToast('Product deleted successfully');
+                await fetchProducts();
+            } catch (e) {
+                showToast('Failed to delete product', 'error');
+            }
+        }
+        
+        let editingId = null;
+        
+        function showAddModal() {
+            editingId = null;
+            document.getElementById('modal-title').textContent = 'Add New Product';
+            document.getElementById('modal-save-btn').textContent = 'Create Product';
+            document.getElementById('edit-id').value = '';
+            document.getElementById('modal-category').value = '';
+            document.getElementById('modal-name').value = '';
+            document.getElementById('modal-price').value = '';
+            document.getElementById('modal-stock').value = '';
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.getElementById('modal-category').focus();
+        }
+        
+        function editProduct(id) {
+            const product = currentProducts.find(p => p.id === id);
+            if (!product) return;
+            
+            editingId = id;
+            document.getElementById('modal-title').textContent = 'Edit Product';
+            document.getElementById('modal-save-btn').textContent = 'Update Product';
+            document.getElementById('modal-category').value = product.category;
+            document.getElementById('modal-name').value = product.name;
+            document.getElementById('modal-price').value = product.price;
+            document.getElementById('modal-stock').value = product.stock_quantity;
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+        
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+        
+        async function saveProduct() {
+            const payload = {
+                category: document.getElementById('modal-category').value.trim(),
+                name: document.getElementById('modal-name').value.trim(),
+                price: parseFloat(document.getElementById('modal-price').value),
+                stock_quantity: parseInt(document.getElementById('modal-stock').value)
+            };
+            
+            if (!payload.name || !payload.category || isNaN(payload.price) || isNaN(payload.stock_quantity)) {
+                showToast('Please fill all fields correctly', 'error');
+                return;
+            }
+            
+            try {
+                let res;
+                if (editingId) {
+                    // Update - backend doesn't have PUT, so we delete then add (simple workaround for demo)
+                    await fetch(`${API_BASE}/${editingId}`, { method: 'DELETE' });
+                    res = await fetch(API_BASE, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    res = await fetch(API_BASE, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+                
+                if (!res.ok) throw new Error('Save failed');
+                
+                showToast(editingId ? 'Product updated' : 'Product created');
+                closeModal();
+                await fetchProducts();
+            } catch (e) {
+                showToast('Failed to save product', 'error');
+                console.error(e);
+            }
+        }
+        
+        function showBulkModal() {
+            document.getElementById('bulk-json').value = `[
+  {
+    "category": "Electronics",
+    "name": "Bluetooth Speaker",
+    "price": 1499,
+    "stock_quantity": 30
+  },
+  {
+    "category": "Fashion",
+    "name": "Wireless Earbuds",
+    "price": 899,
+    "stock_quantity": 75
+  }
+]`;
+            document.getElementById('bulk-modal').classList.remove('hidden');
+        }
+        
+        function closeBulkModal() {
+            document.getElementById('bulk-modal').classList.add('hidden');
+        }
+        
+        async function submitBulk() {
+            let jsonText = document.getElementById('bulk-json').value.trim();
+            if (!jsonText) {
+                showToast('Please enter JSON', 'error');
+                return;
+            }
+            
+            try {
+                const payload = JSON.parse(jsonText);
+                if (!Array.isArray(payload)) throw new Error('Must be an array');
+                
+                const res = await fetch(`${API_BASE}/bulk`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!res.ok) throw new Error('Bulk upload failed');
+                
+                showToast(`✅ ${payload.length} products added successfully!`);
+                closeBulkModal();
+                await fetchProducts();
+            } catch (err) {
+                showToast('Invalid JSON or server error', 'error');
+                console.error(err);
+            }
+        }
+        
+        async function refreshProducts() {
+            await fetchProducts();
+            showToast('Products refreshed');
+        }
+        
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                const modal = document.getElementById('product-modal');
+                const bulk = document.getElementById('bulk-modal');
+                if (!modal.classList.contains('hidden')) closeModal();
+                else if (!bulk.classList.contains('hidden')) closeBulkModal();
+            }
+        });
+        
+        // Initial load
+        window.onload = async () => {
+            // Tailwind ready
+            await fetchProducts();
+            // Default to table view
+            switchView('table');
+            showToast('Connected to Spring Boot API');
+        };
+    </script>
+</body>
+</html>

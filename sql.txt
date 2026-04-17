@@ -1,0 +1,159 @@
+Absolutely! Here’s a **solid set of practice questions** based on SQL **clauses** — perfect for mastering `SELECT`, `WHERE`, `GROUP BY`, `JOIN`, `ORDER BY`, and more. These are structured to build your skills step-by-step.
+
+---
+
+## ✅ Beginner Clauses Practice (SELECT, WHERE, ORDER BY)
+
+1. **Select all columns** from the `clients` table.
+
+   ```sql
+   SELECT * FROM clients;
+   ```
+
+2. **Select only the name and email** of clients.
+
+3. Show all clients whose **email ends with `@gmail.com`**.
+
+4. Show all transactions where **quantity > 100**.
+
+5. Show all assets with **current price between 1000 and 5000**.
+
+6. List all clients in **alphabetical order by name**.
+
+7. Show the **top 5 most expensive assets**.
+
+---
+
+## 🔍 Intermediate Clauses Practice (JOIN, GROUP BY, LIKE)
+
+8. Show each transaction with the client’s name and email.
+9. Show each asset involved in a transaction, along with the transaction quantity.
+SELECT  c.client_id,  c.name, t.transaction_id,t.transaction_type,  t.quantity, COUNT(*) OVER () AS cnt FROM clients AS c JOIN transactions AS t ON t.client_id = c.client_id WHERE c.client_id = 1;
+
+
+
+10. Show all transactions along with the asset type and asset name.
+11. Show how many transactions each client has made.
+12. Show the **total quantity of assets per asset type**.
+13. Find clients who have **never made a transaction**.
+SELECT   c.name,   c.client_id FROM clients AS c LEFT JOIN transactions AS t ON t.client_id = c.client_id WHERE t.transaction_id IS NULL;
+
+14. Find all assets **not yet used in any transaction**.
+SELECT a.asset_id,   a.asset_name  FROM assets AS a LEFT JOIN transactions AS t ON t.asset_id = a.asset_id WHERE t.asset_id IS NULL;
+
+15. Find all clients whose name **starts with 'A'**.
+16. List clients with email domains like **'yahoo.com'** or **'hotmail.com'**.
+
+---
+
+## 💡 Advanced Clauses Practice (HAVING, Subqueries, Aggregate)
+
+17. Show clients who have made **more than 3 transactions**.
+18. Show asset types where the **average price is above 2000**.
+19. Find the **most traded asset** (by quantity).
+20. Show the **client with the highest total transaction quantity**.
+21. For each asset, show the **number of clients who traded it**.
+22. List advisors (if any) who manage more than 5 clients. *(if `advisor_id` exists)*
+
+---
+
+## ⚡ Challenge Questions
+
+23. Show each client’s total investment value (quantity × price of each asset).
+24. Find the top 3 clients who invested the most (total value).
+25. Show transactions in the **last 30 days** (use `NOW()` and `INTERVAL`).
+26. Show the most active client (by number of transactions).
+27. List all assets that were **traded more than once but less than 5 times**.
+28. Create a report showing: client name, number of transactions, and total quantity traded.
+29. Show asset types that have **never been traded**.
+30. For each transaction, show client name, asset name, and the **total value (quantity × price)**.
+
+---
+
+**********WHERE filters rows before grouping. >>>
+ select customer,sum(amount) as total_amount,count(product_id) as prdct_count from orders group by customer having count(product_id)>1;
+***********HAVING filters groups after aggregation.  >>>>
+SELECT category, AVG(price) as avg_price FROM products GROUP BY category HAVING avg_price > 60000;
+
+SELECT * FROM products WHERE category="electronics" HAVING price>60000;   >>>>>>
+is actually incorrect because HAVING is meant to filter groups after aggregation, and here you’re not using any aggregation or GROUP BY.
+poper way SELECT * FROM products WHERE category = "electronics" AND price > 60000;
+
+Find categories where the total sales (sum of amounts) exceed 10,000.>>>>>
+mysql> select c.customer ,count(c.product_id) as order_placed ,p.category , sum(p.price) as total_sellCost from orders as c join products as p on  p.product_id=c.product_id group by p.category,c.customer having sum(p.price)<5000 ;
+
+**********can i sued the aggreagte function with where **********
+No, you can't use aggregate functions directly in the WHERE clause — because WHERE filters rows before aggregation happens.
+
+Instead, use aggregate functions in the HAVING clause, which filters after aggregation.
+WHERE Practice (Row-level filtering, before grouping):
+HAVING Practice (Group-level filtering, after aggregation):
+
+
+         Filtering and Sorting
+WHERE: Filter rows
+ORDER BY: Sort results
+DISTINCT: Remove duplicates
+LIMIT: Restrict number of results
+
+
+🧠 SQL Query Execution Order (Step-by-Step)
+Step	Clause	What It Does
+  1️⃣    	FROM	Chooses the table(s) or joins them
+2️                 WHERE	Filters rows based on condition
+3️⃣	GROUP BY	Groups rows (for aggregation)
+4️⃣	HAVING	Filters groups (after grouping)
+5️⃣	SELECT	Chooses which columns or expressions to return
+6️⃣	DISTINCT	Removes duplicate rows from selected results
+7️⃣	ORDER BY	Sorts the result rows
+8️⃣	LIMIT	Returns only a limited number of rows
+
+
+Filtering happens first, selection and sorting come later.
+
+┌────────────────────┐
+│   1. FROM          │  ← Start by loading data from the table(s)
+├────────────────────┤
+│   2. WHERE         │  ← Filter rows based on a condition
+├────────────────────┤
+│   3. GROUP BY      │  ← Group rows if using aggregate functions
+├────────────────────┤
+│   4. HAVING        │  ← Filter groups created by GROUP BY
+├────────────────────┤
+│   5. SELECT        │  ← Choose which columns or expressions to return
+├────────────────────┤
+│   6. DISTINCT      │  ← Remove duplicates if needed
+├────────────────────┤
+│   7. ORDER BY      │  ← Sort the final result
+├────────────────────┤
+│   8. LIMIT         │  ← Take only a portion of the sorted result
+└────────────────────┘
+
+
+
+> *Hi ChatGPT! I want to practice SQL queries using the `orders` and `products` tables with the sample data we worked on earlier.
+> Please help me write queries involving JOINs, GROUP BY, HAVING, WHERE, and aggregate functions.
+> Start with some simple queries, then gradually increase complexity. Also, give me explanations and exercises to try.*
+
+
+* *“Can you create quiz questions based on these tables?”*
+* *“Help me optimize queries on this data.”*
+* *“Generate some real-world style business questions I can solve with this data.”*
+* *“Help me practice writing nested subqueries using this data.”*
+
+“Load the sample orders and products tables with the full dataset and help me practice JOINs, GROUP BY, and aggregates.
+
+
+SELECT p.category,p.product_name,COUNT(DISTINCT p.product_id) AS product_count, COUNT(o.order_id) AS total_orders FROM products AS p JOIN  orders AS o ON  p.product_id  o.product_id GROUP BY p.category, p.product_name;
+
+select p.product_name ,p.product_id ,count(o.order_id),o.customer from products as p join orders as o on o.product_id=p.product_id group by order_id where count(o.order_id)>1 ;
+
+
+
+
+
+
+
+
+
+1.first i just give me the quention to work on where 
